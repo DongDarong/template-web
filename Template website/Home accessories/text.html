@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Improvement Store</title>
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Body Styling */
+        body {
+            background-color: #f4f4f4;
+            color: #333;
+            line-height: 1.6;
+            font-size: 16px;
+        }
+
+        /* Header */
+        header {
+            background-color: #007B5F; /* Darker teal */
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+
+        header h1 {
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+
+        header p {
+            font-size: 1.2em;
+            font-weight: 300;
+        }
+
+        /* Main Content Area */
+        main {
+            padding: 20px;
+        }
+
+        /* Categories Section */
+        #categories {
+            display: flex;
+            overflow-x: auto; /* Enable horizontal scrolling */
+            padding: 10px 0; /* Spacing for the scroll area */
+            scroll-snap-type: x mandatory; /* Enable snap scrolling */
+        }
+
+        .category {
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            width: 220px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+            scroll-snap-align: start; /* Aligns the categories for snapping */
+            margin: 0 10px; /* Margin for spacing between categories */
+        }
+
+        .category:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .category-img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            transition: filter 0.3s;
+        }
+
+        .category-img:hover {
+            filter: brightness(0.9);
+        }
+
+        .category-info {
+            padding: 10px;
+            background-color: #f0f0f0;
+            position: relative;
+        }
+
+        .category-info h3 {
+            margin: 0;
+            color: #007B5F;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+
+        .category-info:hover h3 {
+            color: #004d3d; /* Darker shade on hover */
+        }
+
+        /* Selected Category Section */
+        #selected-category-image {
+            text-align: center;
+            margin: 20px 0;
+            display: none;
+        }
+
+        #selected-category-image img {
+            max-width: 600px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Items Section */
+        .item-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .item {
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            width: 180px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .item-img {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+            transition: filter 0.3s;
+        }
+
+        .item-img:hover {
+            filter: brightness(0.9);
+        }
+
+        .item-info {
+            padding: 10px;
+            background-color: #f0f0f0;
+        }
+
+        .item-info h3 {
+            margin: 0;
+            color: #333;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+
+        .item-info:hover h3 {
+            color: #007B5F; /* Change color on hover */
+        }
+
+        /* Modal Styling */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+
+        .close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 1.5em;
+            color: #333;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .close:hover {
+            color: #007B5F;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            #categories {
+                padding: 5px 0; /* Adjust padding for smaller screens */
+            }
+            .category, .item {
+                width: 90%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Home Improvement Store</h1>
+        <p>Your one-stop shop for all home improvement needs!</p>
+    </header>
+
+    <main>
+        <!-- Categories Section -->
+        <section id="categories">
+            <h2>Categories</h2>
+            <div class="category" onclick="showCategory('tools')">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT00FJ1BkZVC4_PlJxUrGkzyhVSxxNbbc4ofg&s" alt="Tools" class="category-img">
+                <div class="category-info">
+                    <h3>Tools</h3>
+                </div>
+            </div>
+            <div class="category" onclick="showCategory('home-decor')">
+                <img src="https://www.kunstloft.co.uk/wordpress/en_UK/gb/wp-content/uploads/2024/01/home-decoration-with-a-small-budget-2000x1128.webp" alt="Home Decor" class="category-img">
+                <div class="category-info">
+                    <h3>Home Decor</h3>
+                </div>
+            </div>
+            <div class="category" onclick="showCategory('landscaping')">
+                <img src="https://avantilandscaping.ca/wp-content/uploads/2022/10/avanti-backyard-design-5.jpg" alt="Landscaping" class="category-img">
+                <div class="category-info">
+                    <h3>Landscaping</h3>
+                </div>
+            </div>
+            <div class="category" onclick="showCategory('renovation')">
+                <img src="https://hometriangle.com/blogs/content/images/2024/07/hometriangle-blog-home-renovation-project-material-suppliers--1-.jpg" alt="Renovation Supplies" class="category-img">
+                <div class="category-info">
+                    <h3>Renovation Supplies</h3>
+                </div>
+            </div>
+            <div class="category" onclick="showCategory('appliances')">
+                <img src="images/appliances.jpg" alt="Appliances" class="category-img">
+                <div class="category-info">
+                    <h3>Appliances</h3>
+                </div>
+            </div>
+        </section>
+
+        <!-- Selected Category Image Section -->
+        <section id="selected-category-image" style="display: none;">
+            <h3>Selected Category</h3>
+            <img id="category-image" src="" alt="Selected Category">
+        </section>
+
+        <!-- Items Section -->
+        <section id="items" style="display: none;">
+            <h2 id="category-title"></h2>
+
+            <!-- Tools Items -->
+            <div class="item-group" id="tools">
+                <div class="item" onclick="showDetails('hammer')">
+                    <img src="images/hammer.jpg" alt="Hammer" class="item-img">
+                    <div class="item-info">
+                        <h3>Hammer</h3>
+                    </div>
+                </div>
+                <div class="item" onclick="showDetails('drill')">
+                    <img src="images/drill.jpg" alt="Drill" class="item-img">
+                    <div class="item-info">
+                        <h3>Drill</h3>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Home Decor Items -->
+            <div class="item-group" id="home-decor" style="display: none;">
+                <div class="item" onclick="showDetails('chair')">
+                    <img src="images/chair.jpg" alt="Chair" class="item-img">
+                    <div class="item-info">
+                        <h3>Chair</h3>
+                    </div>
+                </div>
+                <div class="item" onclick="showDetails('table')">
+                    <img src="images/table.jpg" alt="Table" class="item-img">
+                    <div class="item-info">
+                        <h3>Table</h3>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Landscaping Items -->
+            <div class="item-group" id="landscaping" style="display: none;">
+                <div class="item" onclick="showDetails('shovel')">
+                    <img src="images/shovel.jpg" alt="Shovel" class="item-img">
+                    <div class="item-info">
+                        <h3>Shovel</h3>
+                    </div>
+                </div>
+                <div class="item" onclick="showDetails('rake')">
+                    <img src="images/rake.jpg" alt="Rake" class="item-img">
+                    <div class="item-info">
+                        <h3>Rake</h3>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Renovation Items -->
+            <div class="item-group" id="renovation" style="display: none;">
+                <div class="item" onclick="showDetails('paint')">
+                    <img src="images/paint.jpg" alt="Paint" class="item-img">
+                    <div class="item-info">
+                        <h3>Paint</h3>
+                    </div>
+                </div>
+                <div class="item" onclick="showDetails('brush')">
+                    <img src="images/brush.jpg" alt="Brush" class="item-img">
+                    <div class="item-info">
+                        <h3>Brush</h3>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Appliances Items -->
+            <div class="item-group" id="appliances" style="display: none;">
+                <div class="item" onclick="showDetails('fridge')">
+                    <img src="images/fridge.jpg" alt="Fridge" class="item-img">
+                    <div class="item-info">
+                        <h3>Fridge</h3>
+                    </div>
+                </div>
+                <div class="item" onclick="showDetails('oven')">
+                    <img src="images/oven.jpg" alt="Oven" class="item-img">
+                    <div class="item-info">
+                        <h3>Oven</h3>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Modal for Item Details -->
+    <div class="modal" id="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2 id="item-title"></h2>
+            <img id="item-image" src="" alt="Item" style="width: 100%; border-radius: 8px;">
+            <p id="item-description"></p>
+        </div>
+    </div>
+
+    <script>
+        function showCategory(category) {
+            // Hide all categories and items
+            const categories = document.querySelectorAll('.item-group');
+            categories.forEach(cat => cat.style.display = 'none');
+            document.getElementById('items').style.display = 'none';
+
+            // Show the selected category
+            document.getElementById(category).style.display = 'flex';
+            document.getElementById('category-title').textContent = category.charAt(0).toUpperCase() + category.slice(1);
+            document.getElementById('items').style.display = 'block';
+
+            // Update selected category image
+            const categoryImageMap = {
+                tools: "https://example.com/tools-category-image.jpg",
+                'home-decor': "https://example.com/home-decor-category-image.jpg",
+                landscaping: "https://example.com/landscaping-category-image.jpg",
+                renovation: "https://example.com/renovation-category-image.jpg",
+                appliances: "https://example.com/appliances-category-image.jpg"
+            };
+            document.getElementById('category-image').src = categoryImageMap[category];
+            document.getElementById('selected-category-image').style.display = 'block';
+        }
+
+        function showDetails(item) {
+            // Show item details in the modal
+            const itemData = {
+                hammer: { title: "Hammer", description: "A sturdy hammer for all your needs.", image: "images/hammer.jpg" },
+                drill: { title: "Drill", description: "A powerful drill for making holes.", image: "images/drill.jpg" },
+                chair: { title: "Chair", description: "A comfortable chair for your living room.", image: "images/chair.jpg" },
+                table: { title: "Table", description: "A stylish table for dining.", image: "images/table.jpg" },
+                shovel: { title: "Shovel", description: "A durable shovel for digging.", image: "images/shovel.jpg" },
+                rake: { title: "Rake", description: "A handy rake for your garden.", image: "images/rake.jpg" },
+                paint: { title: "Paint", description: "High-quality paint for your walls.", image: "images/paint.jpg" },
+                brush: { title: "Brush", description: "A fine brush for painting.", image: "images/brush.jpg" },
+                fridge: { title: "Fridge", description: "A spacious fridge for all your groceries.", image: "images/fridge.jpg" },
+                oven: { title: "Oven", description: "An efficient oven for baking.", image: "images/oven.jpg" }
+            };
+            const selectedItem = itemData[item];
+            document.getElementById('item-title').textContent = selectedItem.title;
+            document.getElementById('item-description').textContent = selectedItem.description;
+            document.getElementById('item-image').src = selectedItem.image;
+
+            // Show modal
+            document.getElementById('modal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('modal').style.display = 'none';
+        }
+    </script>
+</body>
+</html>

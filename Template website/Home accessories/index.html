@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Improvement Store</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Home Improvement Store</h1>
+        <p>Your one-stop shop for all home improvement needs!</p>
+    </header>
+
+    <main>
+        <!-- Categories Section -->
+        <section id="categories">
+            <h2>Categories</h2>
+            <div class="category" onclick="showCategory('tools')">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT00FJ1BkZVC4_PlJxUrGkzyhVSxxNbbc4ofg&s" alt="Tools" class="category-img">
+                <div class="category-info">
+                    <h3>Tools</h3>
+                </div>
+            </div>
+            <div class="category" onclick="showCategory('home-decor')">
+                <img src="https://www.kunstloft.co.uk/wordpress/en_UK/gb/wp-content/uploads/2024/01/home-decoration-with-a-small-budget-2000x1128.webp" alt="Home Decor" class="category-img">
+                <div class="category-info">
+                    <h3>Home Decor</h3>
+                </div>
+            </div>
+            <div class="category" onclick="showCategory('landscaping')">
+                <img src="https://avantilandscaping.ca/wp-content/uploads/2022/10/avanti-backyard-design-5.jpg" alt="Landscaping" class="category-img">
+                <div class="category-info">
+                    <h3>Landscaping</h3>
+                </div>
+            </div>
+            <div class="category" onclick="showCategory('renovation')">
+                <img src="https://hometriangle.com/blogs/content/images/2024/07/hometriangle-blog-home-renovation-project-material-suppliers--1-.jpg" alt="Renovation Supplies" class="category-img">
+                <div class="category-info">
+                    <h3>Renovation Supplies</h3>
+                </div>
+            </div>
+            <div class="category" onclick="showCategory('appliances')">
+                <img src="images/appliances.jpg" alt="Appliances" class="category-img">
+                <div class="category-info">
+                    <h3>Appliances</h3>
+                </div>
+            </div>
+        </section>
+
+        <!-- Selected Category Image Section -->
+        <section id="selected-category-image" style="display: none;">
+            <h3>Selected Category</h3>
+            <img id="category-image" src="" alt="Selected Category">
+        </section>
+
+        <!-- Items Section -->
+        <section id="items" style="display: none;">
+            <h2 id="category-title"></h2>
+
+            <!-- Tools Items -->
+            <div class="item-group" id="tools" style="display: none;">
+                <div class="item" onclick="showDetails('hammer')">
+                    <img src="images/hammer.jpg" alt="Hammer" class="item-img">
+                    <div class="item-info">
+                        <h3>Hammer</h3>
+                    </div>
+                </div>
+                <div class="item" onclick="showDetails('drill')">
+                    <img src="images/drill.jpg" alt="Drill" class="item-img">
+                    <div class="item-info">
+                        <h3>Drill</h3>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Home Decor Items -->
+            <div class="item-group" id="home-decor" style="display: none;">
+                <div class="item" onclick="showDetails('vase')">
+                    <img src="images/vase.jpg" alt="Vase" class="item-img">
+                    <div class="item-info">
+                        <h3>Vase</h3>
+                    </div>
+                </div>
+                <div class="item" onclick="showDetails('frame')">
+                    <img src="images/frame.jpg" alt="Frame" class="item-img">
+                    <div class="item-info">
+                        <h3>Picture Frame</h3>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Landscaping Items -->
+            <div class="item-group" id="landscaping" style="display: none;">
+                <div class="item" onclick="showDetails('soil')">
+                    <img src="https://avantilandscaping.ca/wp-content/uploads/2022/10/avanti-backyard-design-5.jpg" alt="Soil" class="item-img">
+                    <div class="item-info">
+                        <h3>Soil</h3>
+                    </div>
+                </div>
+                <div class="item" onclick="showDetails('plant')">
+                    <img src="https://avantilandscaping.ca/wp-content/uploads/2022/10/avanti-backyard-design-5.jpg" alt="Plant" class="item-img">
+                    <div class="item-info">
+                        <h3>Plant</h3>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Renovation Supplies Items -->
+            <div class="item-group" id="renovation" style="display: none;">
+                <div class="item" onclick="showDetails('paint')">
+                    <img src="images/paint.jpg" alt="Paint" class="item-img">
+                    <div class="item-info">
+                        <h3>Paint</h3>
+                    </div>
+                </div>
+                <div class="item" onclick="showDetails('brush')">
+                    <img src="images/brush.jpg" alt="Brush" class="item-img">
+                    <div class="item-info">
+                        <h3>Brush</h3>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Appliances Items -->
+            <div class="item-group" id="appliances" style="display: none;">
+                <div class="item" onclick="showDetails('fridge')">
+                    <img src="images/fridge.jpg" alt="Fridge" class="item-img">
+                    <div class="item-info">
+                        <h3>Fridge</h3>
+                    </div>
+                </div>
+                <div class="item" onclick="showDetails('oven')">
+                    <img src="images/oven.jpg" alt="Oven" class="item-img">
+                    <div class="item-info">
+                        <h3>Oven</h3>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Modal -->
+    <div class="modal" id="item-modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2 id="item-title"></h2>
+            <p id="item-description"></p>
+            <img id="item-image" src="" alt="" style="width: 100%; height: auto;">
+        </div>
+    </div>
+
+    <script src="script.js">
+
+    </script>
+</body>
+</html>
