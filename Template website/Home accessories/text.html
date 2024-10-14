@@ -59,18 +59,15 @@
             border: 1px solid #ddd;
             border-radius: 10px;
             cursor: pointer;
-            transition: transform 0.3s, box-shadow 0.3s;
+            transition: transform 0.2s, box-shadow 0.2s;
             width: 220px;
             text-align: center;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            position: relative;
-            overflow: hidden;
-            scroll-snap-align: start; /* Aligns the categories for snapping */
             margin: 0 10px; /* Margin for spacing between categories */
         }
 
         .category:hover {
-            transform: scale(1.05);
+            transform: scale(1.03);
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
         }
 
@@ -88,7 +85,6 @@
         .category-info {
             padding: 10px;
             background-color: #f0f0f0;
-            position: relative;
         }
 
         .category-info h3 {
@@ -130,16 +126,15 @@
             border-radius: 10px;
             overflow: hidden;
             cursor: pointer;
-            transition: transform 0.3s, box-shadow 0.3s;
+            transition: transform 0.2s, box-shadow 0.2s;
             width: 180px;
             text-align: center;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            position: relative;
-            overflow: hidden;
+            margin: 10px; /* Added margin for better item separation */
         }
 
         .item:hover {
-            transform: scale(1.05);
+            transform: scale(1.03);
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
         }
 
@@ -179,7 +174,7 @@
             top: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.8);
+            background-color: rgba(0, 0, 0, 0.8); /* Dark background with opacity */
             justify-content: center;
             align-items: center;
         }
@@ -216,6 +211,14 @@
             }
             .category, .item {
                 width: 90%;
+                max-width: 300px; /* Ensure a max width for small screens */
+                margin: 10px auto; /* Center items */
+            }
+        }
+
+        @media (max-width: 480px) {
+            header h1 {
+                font-size: 2em; /* Smaller text for very small screens */
             }
         }
     </style>
@@ -229,7 +232,6 @@
     <main>
         <!-- Categories Section -->
         <section id="categories">
-            <h2>Categories</h2>
             <div class="category" onclick="showCategory('tools')">
                 <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT00FJ1BkZVC4_PlJxUrGkzyhVSxxNbbc4ofg&s" alt="Tools" class="category-img">
                 <div class="category-info">
@@ -242,178 +244,88 @@
                     <h3>Home Decor</h3>
                 </div>
             </div>
-            <div class="category" onclick="showCategory('landscaping')">
-                <img src="https://avantilandscaping.ca/wp-content/uploads/2022/10/avanti-backyard-design-5.jpg" alt="Landscaping" class="category-img">
-                <div class="category-info">
-                    <h3>Landscaping</h3>
-                </div>
-            </div>
-            <div class="category" onclick="showCategory('renovation')">
-                <img src="https://hometriangle.com/blogs/content/images/2024/07/hometriangle-blog-home-renovation-project-material-suppliers--1-.jpg" alt="Renovation Supplies" class="category-img">
-                <div class="category-info">
-                    <h3>Renovation Supplies</h3>
-                </div>
-            </div>
-            <div class="category" onclick="showCategory('appliances')">
-                <img src="https://cdn.firstcry.com/education/2023/01/13101355/Names-Of-Household-Appliances-In-English.jpg" alt="Appliances" class="category-img">
-                <div class="category-info">
-                    <h3>Appliances</h3>
-                </div>
-            </div>
+            
+            <!-- Add more categories -->
         </section>
 
-        <!-- Selected Category Image Section -->
-        <section id="selected-category-image" style="display: none;">
-            <h3>Selected Category</h3>
-            <img id="category-image" src="" alt="Selected Category">
-        </section>
+        <!-- Selected Category Image -->
+        <div id="selected-category-image">
+            <img src="" alt="Selected Category">
+        </div>
 
         <!-- Items Section -->
-        <section id="items" style="display: none;">
-            <h2 id="category-title"></h2>
-
-            <!-- Tools Items -->
-            <div class="item-group" id="tools">
-                <div class="item" onclick="showDetails('hammer')">
-                    <img src="images/hammer.jpg" alt="Hammer" class="item-img">
-                    <div class="item-info">
-                        <h3>Hammer</h3>
-                    </div>
-                </div>
-                <div class="item" onclick="showDetails('drill')">
-                    <img src="images/drill.jpg" alt="Drill" class="item-img">
-                    <div class="item-info">
-                        <h3>Drill</h3>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Home Decor Items -->
-            <div class="item-group" id="home-decor" style="display: none;">
-                <div class="item" onclick="showDetails('chair')">
-                    <img src="images/chair.jpg" alt="Chair" class="item-img">
-                    <div class="item-info">
-                        <h3>Chair</h3>
-                    </div>
-                </div>
-                <div class="item" onclick="showDetails('table')">
-                    <img src="images/table.jpg" alt="Table" class="item-img">
-                    <div class="item-info">
-                        <h3>Table</h3>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Landscaping Items -->
-            <div class="item-group" id="landscaping" style="display: none;">
-                <div class="item" onclick="showDetails('shovel')">
-                    <img src="images/shovel.jpg" alt="Shovel" class="item-img">
-                    <div class="item-info">
-                        <h3>Shovel</h3>
-                    </div>
-                </div>
-                <div class="item" onclick="showDetails('rake')">
-                    <img src="images/rake.jpg" alt="Rake" class="item-img">
-                    <div class="item-info">
-                        <h3>Rake</h3>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Renovation Items -->
-            <div class="item-group" id="renovation" style="display: none;">
-                <div class="item" onclick="showDetails('paint')">
-                    <img src="images/paint.jpg" alt="Paint" class="item-img">
-                    <div class="item-info">
-                        <h3>Paint</h3>
-                    </div>
-                </div>
-                <div class="item" onclick="showDetails('brush')">
-                    <img src="images/brush.jpg" alt="Brush" class="item-img">
-                    <div class="item-info">
-                        <h3>Brush</h3>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Appliances Items -->
-            <div class="item-group" id="appliances" style="display: none;">
-                <div class="item" onclick="showDetails('fridge')">
-                    <img src="images/fridge.jpg" alt="Fridge" class="item-img">
-                    <div class="item-info">
-                        <h3>Fridge</h3>
-                    </div>
-                </div>
-                <div class="item" onclick="showDetails('oven')">
-                    <img src="images/oven.jpg" alt="Oven" class="item-img">
-                    <div class="item-info">
-                        <h3>Oven</h3>
-                    </div>
-                </div>
+        <section id="items">
+            <div class="item-group" id="items-container">
+                <!-- Items will be inserted dynamically -->
             </div>
         </section>
     </main>
 
     <!-- Modal for Item Details -->
-    <div class="modal" id="modal">
+    <div class="modal" id="itemModal">
         <div class="modal-content">
             <span class="close" onclick="closeModal()">&times;</span>
-            <h2 id="item-title"></h2>
-            <img id="item-image" src="" alt="Item" style="width: 100%; border-radius: 8px;">
-            <p id="item-description"></p>
+            <h2 id="itemModalTitle"></h2>
+            <p id="itemModalDescription"></p>
         </div>
     </div>
 
     <script>
         function showCategory(category) {
-            // Hide all categories and items
-            const categories = document.querySelectorAll('.item-group');
-            categories.forEach(cat => cat.style.display = 'none');
-            document.getElementById('items').style.display = 'none';
+            const selectedCategoryImage = document.getElementById("selected-category-image");
+            selectedCategoryImage.style.display = "block";
+            selectedCategoryImage.querySelector("img").src = document.querySelector(`[onclick="showCategory('${category}')"] img`).src;
 
-            // Show the selected category
-            document.getElementById(category).style.display = 'flex';
-            document.getElementById('category-title').textContent = category.charAt(0).toUpperCase() + category.slice(1);
-            document.getElementById('items').style.display = 'block';
+            const itemsContainer = document.getElementById("items-container");
+            itemsContainer.innerHTML = ''; // Clear previous items
 
-            // Update selected category image
-            const categoryImageMap = {
-                tools: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT00FJ1BkZVC4_PlJxUrGkzyhVSxxNbbc4ofg&s",
-                'home-decor': "https://www.kunstloft.co.uk/wordpress/en_UK/gb/wp-content/uploads/2024/01/home-decoration-with-a-small-budget-2000x1128.webp",
-                landscaping: "https://avantilandscaping.ca/wp-content/uploads/2022/10/avanti-backyard-design-5.jpg",
-                renovation: "https://hometriangle.com/blogs/content/images/2024/07/hometriangle-blog-home-renovation-project-material-suppliers--1-.jpg",
-                appliances: "https://cdn.firstcry.com/education/2023/01/13101355/Names-Of-Household-Appliances-In-English.jpg"
+            const items = {
+                tools: [
+                    { name: "Hammer", description: "A heavy-duty hammer for construction.", img: "https://www.kincrome.com.au/Images/ProductImages/K9053.jpeg" },
+                    { name: "Drill", description: "A powerful drill for all your needs.", img: "https://cdn.thewirecutter.com/wp-content/uploads/2021/05/drill-2048px-4169.jpg" }
+                ],
+                "home-decor": [
+                    { name: "Wall Art", description: "Beautiful paintings for your home.", img: "https://m.media-amazon.com/images/I/71Y3Pp-6GWL._AC_UF1000,1000_QL80_.jpg" },
+                    { name: "Vases", description: "Elegant vases to adorn your space.", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTwS1IXEdfNjc2N-_Wgu8XYL2KzB4Gbi6oaEfKDEOFgscoTZNLhMSeJVOy57ln7N7UcoS4&usqp=CAU" }
+                ]
+                // Add other categories as needed
             };
-            document.getElementById('category-image').src = categoryImageMap[category];
-            document.getElementById('selected-category-image').style.display = 'block';
+
+            // Insert items into the container
+            if (items[category]) {
+                items[category].forEach(item => {
+                    const itemElement = document.createElement("div");
+                    itemElement.classList.add("item");
+                    itemElement.innerHTML = `
+                        <img src="${item.img}" alt="${item.name}" class="item-img">
+                        <div class="item-info">
+                            <h3>${item.name}</h3>
+                        </div>
+                    `;
+                    itemElement.onclick = () => openModal(item.name, item.description);
+                    itemsContainer.appendChild(itemElement);
+                });
+            }
         }
 
-        function showDetails(item) {
-            // Show item details in the modal
-            const itemData = {
-                hammer: { title: "Hammer", description: "A sturdy hammer for all your needs.", image: "images/hammer.jpg" },
-                drill: { title: "Drill", description: "A powerful drill for making holes.", image: "images/drill.jpg" },
-                chair: { title: "Chair", description: "A comfortable chair for your living room.", image: "images/chair.jpg" },
-                table: { title: "Table", description: "A stylish table for dining.", image: "images/table.jpg" },
-                shovel: { title: "Shovel", description: "A durable shovel for digging.", image: "images/shovel.jpg" },
-                rake: { title: "Rake", description: "A handy rake for your garden.", image: "images/rake.jpg" },
-                paint: { title: "Paint", description: "High-quality paint for your walls.", image: "images/paint.jpg" },
-                brush: { title: "Brush", description: "A fine brush for painting.", image: "images/brush.jpg" },
-                fridge: { title: "Fridge", description: "A spacious fridge for all your groceries.", image: "images/fridge.jpg" },
-                oven: { title: "Oven", description: "An efficient oven for baking.", image: "images/oven.jpg" }
-            };
-            const selectedItem = itemData[item];
-            document.getElementById('item-title').textContent = selectedItem.title;
-            document.getElementById('item-description').textContent = selectedItem.description;
-            document.getElementById('item-image').src = selectedItem.image;
-
-            // Show modal
-            document.getElementById('modal').style.display = 'flex';
+        function openModal(title, description) {
+            const modal = document.getElementById("itemModal");
+            document.getElementById("itemModalTitle").textContent = title;
+            document.getElementById("itemModalDescription").textContent = description;
+            modal.style.display = "flex";
         }
 
         function closeModal() {
-            document.getElementById('modal').style.display = 'none';
+            const modal = document.getElementById("itemModal");
+            modal.style.display = "none";
         }
+
+        window.onclick = function(event) {
+            const modal = document.getElementById("itemModal");
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        };
     </script>
 </body>
 </html>
